@@ -61,9 +61,9 @@ elForm.addEventListener("submit" , evt =>{
     }
     
     const item = newArray.find(item => item.userPhone === phoneValue);
-    
+
     if(item) {
-        alert("oldin kiritilgan")
+        alert("Oldin kiritilgan nomer kiritdizz boshqa nomer kiriting❌❌❌")
         return;
     } else {
         newArray.push(obj);
