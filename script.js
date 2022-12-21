@@ -13,7 +13,7 @@ function myContactFuction(){
     
     elList.innerHTML = "";
     
-    newArray.forEach((element) => {
+    newArray.forEach((element, index) => {
         
         const newItem = document.createElement("li");
         newItem.classList.add("item-js")
@@ -31,7 +31,7 @@ function myContactFuction(){
         delBtn.classList.add("del-btn" , "btn" , "btn-danger" ,"d-block" , "ms-2");
         delBtn.textContent = "delete"
         
-        newSpan.textContent = element.id;
+        newSpan.textContent = index + 1;
         newTitle.textContent = element.userName;
         newText.textContent = element.userDataList;
         newPhone.textContent ="+" + element.userPhone;
@@ -54,16 +54,16 @@ elForm.addEventListener("submit" , evt =>{
     
     
     const obj = {
-        id: ++count,
+        id: count++,
         userName: nameValue,
         userDataList:datalistValue,
         userPhone: phoneValue,
     }
     
-    const item = newArray.find(item => item.userPhone === phoneValue);
+    const findItem = newArray.find(item => item.userPhone === phoneValue);
 
-    if(item) {
-        alert("Oldin kiritilgan nomer kiritdizz boshqa nomer kiriting❌❌❌")
+    if(findItem) {
+        alert("Oldin kiritilgan raqam kiritdingiz boshqa raqam kiriting❌❌❌");
         return;
     } else {
         newArray.push(obj);
