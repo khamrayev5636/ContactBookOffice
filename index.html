@@ -28,14 +28,15 @@
                             <option value="Brother"></option>
                             <option value="Shep"></option>
                         </datalist>
-                        <input type="number" class="input__phone form-control form-control-lg mb-4" placeholder="Phone">
+                        <input type="tel" class="input__phone form-control form-control-lg" minlength="9" placeholder="Phone">
+                        <span class="contact__error d-inline-block my-1" aria-hidden="true">This number was entered earlier</span>
                         <button class="btn btn-lg btn-success w-100">Add Contact</button>
                     </form>
                     
                 </div>
                 <div class="col-12 col-lg-6">
                     <h2 class="text-white fw-bold mb-4">Contacts</h2>
-                    <ul class="list">
+                    <ul class="contact__list">
                         
                     </ul>
                 </div>
@@ -45,6 +46,21 @@
     
     <!-- Contact end -->
     
+    <!-- Template start -->
+    
+    <template class="contact__temp">
+        
+        <li class="contact__item">
+            <span class="contact__span-id"></span>
+            <h3 class="contact__title"></h3>
+            <p class="contact__text"></p>
+            <a  class="contact__link"></a>
+            <button class="contact__btn btn btn-danger d-block ms-2" type="submit">Delete</button>
+        </li>
+        
+    </template>
+    
+    <!-- Template end -->
     
     <script src="script.js"></script>
     

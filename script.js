@@ -2,88 +2,106 @@ const elForm = document.querySelector(".form__js");
 const elName = elForm.querySelector(".input__name");
 const elDataList = elForm.querySelector(".input__datalist");
 const elPhone = elForm.querySelector(".input__phone");
-const elList = document.querySelector(".list");
+const elList = document.querySelector(".contact__list");
 
-const newArray = [];
-let count = 0;
+const contactListArr = [];
 
-// Domga Render Qilish
+// Add  Contact function
 
-function myContactFuction(){
+const addContact = ((userName , relationShip , userNumber) => {
     
-    elList.innerHTML = "";
-    
-    newArray.forEach((element, index) => {
-        
-        const newItem = document.createElement("li");
-        newItem.classList.add("item-js")
-        const newSpan = document.createElement("span");
-        newSpan.classList.add("span-js")
-        const newTitle = document.createElement("h3");
-        newTitle.classList.add("title-js")
-        const newText = document.createElement("p");
-        newText.classList.add("text-js")
-        const newPhone = document.createElement("a");
-        newPhone.classList.add("link-js");
-        const delBtn = document.createElement("button");
-        delBtn.type = "button";
-        delBtn.dataset.id = element.id;
-        delBtn.classList.add("del-btn" , "btn" , "btn-danger" ,"d-block" , "ms-2");
-        delBtn.textContent = "delete"
-        
-        newSpan.textContent = index + 1;
-        newTitle.textContent = element.userName;
-        newText.textContent = element.userDataList;
-        newPhone.textContent ="+" + element.userPhone;
-        newPhone.setAttribute("href" , `${"tel:" + element.userPhone}`)
-        
-        
-        newItem.append(newSpan , newTitle , newText , newPhone, delBtn);
-        elList.appendChild(newItem);
-    });    
-}
-
-elForm.addEventListener("submit" , evt =>{
-    evt.preventDefault();
-    
-    elList.classList.add("list-js");
-    
-    const nameValue = elName.value.trim();
-    const datalistValue = elDataList.value.trim();
-    const phoneValue = elPhone.value.trim();
-    
-    
-    const obj = {
-        id: count++,
-        userName: nameValue,
-        userDataList:datalistValue,
-        userPhone: phoneValue,
-    }
-    
-    const findItem = newArray.find(item => item.userPhone === phoneValue);
-
-    if(findItem) {
-        alert("Oldin kiritilgan raqam kiritdingiz boshqa raqam kiriting❌❌❌");
-        return;
-    } else {
-        newArray.push(obj);
-    }
-    elForm.reset();
-    
-    myContactFuction();
+    contactListArr.push({
+        user_name: userName,
+        relation_ship: relationShip,
+        user_number:userNumber,
+    });
     
 });
 
-elList.addEventListener("click" , evt => {
+
+// Invalid Number 
+
+function invalidFunction(contactInvalid) {
     
-    if(evt.target.matches(".del-btn")){
+    return contactListArr.findIndex(num => num.user_number === contactInvalid ) > -1;
+}
+
+
+// Render Contatc 
+
+function renderContact() {
+    
+    const elContactTemplate = document.querySelector(".contact__temp").content;
+    const elContactFragment = document.createDocumentFragment();
+    
+    elList.innerHTML = "";
+    
+    contactListArr.forEach((item , index) =>{
         
-        const delbtnId = Number(evt.target.dataset.id);
-        const findListArray = newArray.findIndex((item) => {
-            return item.id === delbtnId
-        });
+        const elClone = elContactTemplate.cloneNode(true);
         
-        newArray.splice(findListArray, 1);
-        myContactFuction();
+        elClone.querySelector(".contact__span-id").textContent = index + 1;
+        elClone.querySelector(".contact__title").textContent = item.user_name;
+        elClone.querySelector(".contact__text").textContent = item.relation_ship;
+        elClone.querySelector(".contact__link").textContent = "+" + item.user_number;
+        elClone.querySelector(".contact__link").href = `tel:+${item.user_number}`;
+        elClone.querySelector(".contact__btn").dataset.contactId = index;
+        
+        elContactFragment.appendChild(elClone)
+        
+    })
+    
+    elList.appendChild(elContactFragment)
+    
+}
+
+
+// Delete Contact 
+
+function deleteContact() {
+    
+    
+    //Event Delegation 
+    
+    elList.addEventListener("click" , (evt) => {
+        
+        if(evt.target.matches(".contact__btn")){
+            
+            const delBtn = Number(evt.target.dataset.contactId);
+            
+            contactListArr.splice(delBtn , 1);
+            renderContact()
+        }
+        
+    });
+}
+
+
+// ELFORM SUBMIT FORMANI ESHITAMIZZ !!!
+
+elForm.addEventListener("submit" , (evt)=> {
+    evt.preventDefault();
+    
+    elList.classList.add("contact__list-js")
+    
+    const elNameValue = elName.value.trim();    
+    const elDataListValue = elDataList.value.trim();    
+    const elPhoneValue = elPhone.value.trim();  
+    
+    if(invalidFunction(elPhoneValue)){
+        elPhone.classList.add("input__phone-js");
+        return
     }
-})
+    
+    elPhone.classList.remove("input__phone-js")
+    
+    addContact(elNameValue , elDataListValue , elPhoneValue);
+    renderContact();
+    
+    elForm.reset();
+    
+    
+});
+
+deleteContact()
+
