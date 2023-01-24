@@ -18,14 +18,12 @@ const addContact = ((userName , relationShip , userNumber) => {
     
 });
 
-
 // Invalid Number 
 
 function invalidFunction(contactInvalid) {
     
     return contactListArr.findIndex(num => num.user_number === contactInvalid ) > -1;
 }
-
 
 // Render Contatc 
 
@@ -55,11 +53,9 @@ function renderContact() {
     
 }
 
-
 // Delete Contact 
 
-function deleteContact() {
-    
+function deleteContact() {    
     
     //Event Delegation 
     
@@ -76,13 +72,12 @@ function deleteContact() {
     });
 }
 
-
 // ELFORM SUBMIT FORMANI ESHITAMIZZ !!!
 
 elForm.addEventListener("submit" , (evt)=> {
     evt.preventDefault();
     
-    elList.classList.add("contact__list-js")
+    elList.classList.add("contact__list-js");
     
     const elNameValue = elName.value.trim();    
     const elDataListValue = elDataList.value.trim();    
@@ -98,10 +93,7 @@ elForm.addEventListener("submit" , (evt)=> {
     addContact(elNameValue , elDataListValue , elPhoneValue);
     renderContact();
     
-    elForm.reset();
-    
-    
+    elForm.reset();    
 });
 
 deleteContact()
-
